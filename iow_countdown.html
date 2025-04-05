@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isle of Wight Takeover Countdown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+        /* Custom base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Style for the countdown numbers */
+        .countdown-number {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            line-height: 1;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Style for the countdown labels */
+        .countdown-label {
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
+            color: #cbd5e1;
+            /* slate-300 */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Style for the message box */
+        #message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            /* rounded-lg */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            /* shadow-lg */
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        #message-box.show {
+            opacity: 1;
+        }
+
+        /* Style for SVG icons */
+        .label-icon {
+            width: 1.1em;
+            height: 1.1em;
+            margin-right: 0.4em;
+            display: inline-block;
+            vertical-align: middle;
+            /* Color: slate-300 */
+            filter: invert(90%) sepia(13%) saturate(269%) hue-rotate(180deg) brightness(90%) contrast(88%);
+        }
+
+        /* SwiperJS Custom Styles */
+        .swiper-container {
+            width: 100%;
+            max-width: 800px;
+            /* Adjust max width as needed */
+            aspect-ratio: 16 / 9;
+            /* Maintain aspect ratio */
+            margin: 2rem auto;
+            /* Center and add margin */
+            border-radius: 0.5rem;
+            /* rounded-lg */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Add subtle border */
+            background-color: rgba(0, 0, 0, 0.2);
+            /* Fallback background */
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Cover the slide area */
+            border-radius: 0.5rem;
+            /* Match container rounding */
+        }
+
+        /* Style Swiper navigation buttons */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #ffffff;
+            /* White arrows */
+            background-color: rgba(0, 0, 0, 0.3);
+            /* Semi-transparent background */
+            border-radius: 50%;
+            width: 44px;
+            /* Fixed width */
+            height: 44px;
+            /* Fixed height */
+            right: 10px;
+            /* Position adjustment */
+        }
+
+        .swiper-button-prev {
+            left: 10px;
+            /* Position adjustment */
+            right: auto;
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1.5rem;
+            /* Adjust arrow size */
+        }
+
+        /* Style Swiper pagination bullets */
+        .swiper-pagination-bullet {
+            background-color: #ffffff;
+            /* White bullets */
+            opacity: 0.6;
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background-color: #38bdf8;
+            /* sky-500 */
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-br from-slate-900 to-black min-h-screen flex flex-col items-center justify-center text-white p-6 overflow-x-hidden">
+    <div id="message-box"></div>
+
+    <div class="text-center max-w-4xl mx-auto w-full">
+        <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">
+            Isle of Wight Takeover 2025
+        </h1>
+        <p class="text-lg md:text-xl text-slate-300 mb-8">
+            Get ready! The countdown is on.
+        </p>
+
+        <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mb-8">
+            <div
+                class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                <div id="days" class="countdown-number">00</div>
+                <div class="countdown-label mt-2">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/calendar-days.svg" alt="Days"
+                        class="label-icon" /> Days
+                </div>
+            </div>
+            <div
+                class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                <div id="hours" class="countdown-number">00</div>
+                <div class="countdown-label mt-2">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/clock.svg" alt="Hours"
+                        class="label-icon" /> Hours
+                </div>
+            </div>
+            <div
+                class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                <div id="minutes" class="countdown-number">00</div>
+                <div class="countdown-label mt-2">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/timer.svg" alt="Minutes"
+                        class="label-icon" /> Minutes
+                </div>
+            </div>
+            <div
+                class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                <div id="seconds" class="countdown-number">00</div>
+                <div class="countdown-label mt-2">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/hourglass.svg" alt="Seconds"
+                        class="label-icon" /> Seconds
+                </div>
+            </div>
+        </div>
+
+        <div class="my-8 md:my-12">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-200">Event Moments</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="images/slideshow/F244BD2B-EB94-48A0-A1E8-CF622816EA03.JPG" alt="IOW Takeover Moment 1"
+                            onerror="this.onerror=null; this.src='https://placehold.co/800x450/334155/e2e8f0?text=Image+1+Not+Found';">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="images/slideshow/B1E1EE77-7CE4-4F70-8FA3-4AA9B36A197E.JPG" alt="IOW Takeover Moment 2"
+                            onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+2+Not+Found';">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="images/slideshow/C9D81B65-8AE3-4A09-A8B7-7996794A88DE.JPG" alt="IOW Takeover Moment 3"
+                            onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+3+Not+Found';">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+
+        <p id="event-date" class="mt-8 md:mt-10 text-slate-400 text-sm md:text-base">
+            Event starts: May 16, 2025, 3:00 PM BST
+        </p>
+
+        <div class="mt-8 md:mt-12">
+            <a href="https://chat.whatsapp.com/I5FwInQm9i77O5kBepUjWA" target="_blank" rel="noopener noreferrer"
+                class="inline-block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
+                Visit WhatsApp Chat
+            </a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+        // --- Configuration ---
+        const targetDate = new Date('2025-05-16T15:00:00+01:00').getTime();
+
+        // --- DOM Elements ---
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const countdownEl = document.getElementById('countdown');
+        const eventDateEl = document.getElementById('event-date');
+        const messageBox = document.getElementById('message-box');
+
+        // --- Message Function ---
+        function showMessage(message) {
+            if (!messageBox) return;
+            messageBox.textContent = message;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 5000);
+        }
+
+        // --- Countdown Logic ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                if (countdownEl) {
+                    countdownEl.innerHTML = `
+                        <div class="col-span-2 sm:col-span-4 text-center bg-green-600/30 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-green-400/50">
+                            <div class="text-3xl md:text-4xl font-bold text-green-300">The Takeover is happening now!</div>
+                        </div>
+                    `;
+                }
+                if (eventDateEl) {
+                    eventDateEl.textContent = "Event Started: May 16, 2025, 3:00 PM BST";
+                }
+                showMessage("The Isle of Wight Takeover has started!");
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        // --- Swiper Initialization ---
+        // Ensure Swiper is initialized after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.swiper-container', {
+                // Optional parameters
+                loop: true, // Enable continuous loop mode
+                autoplay: {
+                    delay: 4000, // Autoplay delay in milliseconds
+                    disableOnInteraction: false, // Autoplay continues even after user interaction
+                },
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true, // Allow clicking on pagination bullets
+                },
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                // Accessibility features
+                a11y: {
+                    prevSlideMessage: 'Previous slide',
+                    nextSlideMessage: 'Next slide',
+                },
+            });
+        });
+
+
+        // --- Countdown Initialization ---
+        updateCountdown(); // Initial countdown update
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+    </script>
+</body>
+
+</html>
