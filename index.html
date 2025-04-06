@@ -14,31 +14,30 @@
     <style>
         /* Custom base styles */
         html {
-            /* Set root background color to extend into safe areas */
-            background-color: #000000; /* Match the dark gradient start/end */
+            background-color: #000000;
         }
         html, body {
             height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Keep this */
-            display: flex; /* Use flexbox for footer */
-            flex-direction: column; /* Stack content vertically */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
         body {
             font-family: 'Inter', sans-serif;
-            flex-grow: 1; /* Allow body to grow and push footer down */
-            box-sizing: border-box; /* Include padding in height calculation */
-            /* Add padding to account for safe areas - content won't be hidden */
+            flex-grow: 1;
+            box-sizing: border-box;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
+            background-color: #000; /* Added fallback */
         }
         /* Main content container */
         .main-content {
-             flex-grow: 1; /* Takes up available space */
+             flex-grow: 1;
              display: flex;
              flex-direction: column;
              align-items: center;
@@ -46,7 +45,7 @@
              width: 100%;
              padding: 1.5rem; /* p-6 */
         }
-        /* Style for the countdown numbers */
+        /* Countdown numbers */
         .countdown-number {
             font-weight: 900;
             font-size: clamp(2.5rem, 10vw, 6rem);
@@ -54,7 +53,7 @@
             color: #ffffff;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
-        /* Style for the countdown labels */
+        /* Countdown labels */
         .countdown-label {
             font-size: clamp(0.8rem, 3vw, 1.2rem);
             color: #cbd5e1; /* slate-300 */
@@ -64,10 +63,10 @@
             align-items: center;
             justify-content: center;
         }
-        /* Style for the message box */
+        /* Message box */
         #message-box {
             position: fixed;
-            top: calc(20px + env(safe-area-inset-top)); /* Adjust for safe area */
+            top: calc(20px + env(safe-area-inset-top));
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(0, 0, 0, 0.8);
@@ -80,60 +79,57 @@
             transition: opacity 0.5s ease-in-out;
             font-size: 1rem;
             text-align: center;
-            pointer-events: none; /* Prevent interaction */
+            pointer-events: none;
         }
         #message-box.show {
             opacity: 1;
         }
-        /* Style for SVG icons in labels */
+        /* Label icons */
         .label-icon {
             width: 1.1em;
             height: 1.1em;
             margin-right: 0.4em;
             display: inline-block;
             vertical-align: middle;
-            /* Color: slate-300 */
             filter: invert(90%) sepia(13%) saturate(269%) hue-rotate(180deg) brightness(90%) contrast(88%);
         }
-        /* SwiperJS Custom Styles */
+        /* SwiperJS */
         .swiper-container {
             width: 100%;
-            max-width: 800px; /* Adjust max width as needed */
-            aspect-ratio: 16 / 9; /* Maintain aspect ratio */
-            margin: 2rem auto; /* Center and add margin */
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            margin: 2rem auto;
             border-radius: 0.5rem; /* rounded-lg */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Add subtle border */
-            background-color: rgba(0,0,0,0.2); /* Fallback background */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(0,0,0,0.2);
         }
         .swiper-slide img {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cover the slide area */
-            border-radius: 0.5rem; /* Match container rounding */
+            object-fit: cover;
+            border-radius: 0.5rem;
         }
-        /* Style Swiper navigation buttons */
         .swiper-button-next,
         .swiper-button-prev {
-            color: #ffffff; /* White arrows */
-            background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 50%;
-            width: 44px; /* Fixed width */
-            height: 44px; /* Fixed height */
-            right: 10px; /* Position adjustment */
+            width: 44px;
+            height: 44px;
+            right: 10px;
         }
         .swiper-button-prev {
-            left: 10px; /* Position adjustment */
+            left: 10px;
             right: auto;
         }
         .swiper-button-next::after,
         .swiper-button-prev::after {
-            font-size: 1.5rem; /* Adjust arrow size */
+            font-size: 1.5rem;
         }
-         /* Style Swiper pagination bullets */
         .swiper-pagination-bullet {
-            background-color: #ffffff; /* White bullets */
+            background-color: #ffffff;
             opacity: 0.6;
         }
         .swiper-pagination-bullet-active {
@@ -153,24 +149,41 @@
             background-color: rgba(15, 23, 42, 0.3); /* slate-900 with opacity */
             border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle top border */
         }
+        /* Style for links within the footer */
         footer a {
             color: #38bdf8; /* sky-500 */
             text-decoration: underline;
-            margin: 0 0.5rem; /* Add horizontal margin */
+            /* margin: 0 0.5rem; Removed margin here, handled by flex gap */
         }
         footer a:hover {
             color: #7dd3fc; /* sky-300 */
         }
-        .footer-logos img {
+        /* Container for the top part of the footer (text/logos/links) */
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on small screens */
+            justify-content: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+            gap: 0.5rem 1rem; /* Vertical and horizontal gap */
+            margin-bottom: 1rem; /* Space below this content, above Turnstile */
+        }
+        /* Individual items within the footer content */
+        .footer-item {
+            display: inline-flex; /* Use inline-flex for alignment */
+            align-items: center; /* Align text and logo vertically */
+            gap: 0.25rem; /* Space between text and logo */
+        }
+        .footer-item img {
             height: 1.2em; /* Control logo size */
             display: inline-block;
             vertical-align: middle;
-            margin: 0 0.25rem; /* Add space around logos */
             filter: grayscale(100%) brightness(1.5); /* Make logos subtle */
         }
+        /* Separator style */
         .footer-separator {
-            margin: 0 0.5rem;
             opacity: 0.5;
+            /* Hide separator on very small screens if content wraps poorly */
+            /* Consider adding 'hidden sm:inline' if needed */
         }
         /* Turnstile widget container */
         .turnstile-container {
@@ -239,7 +252,7 @@
                          <div class="swiper-slide">
                              <img src="images/slideshow/C9D81B65-8AE3-4A09-A8B7-7996794A88DE.JPG" alt="IOW Takeover Moment 5" onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+5+Not+Found';">
                          </div>
-                          <div class="swiper-slide">
+                         <div class="swiper-slide">
                              <img src="images/slideshow/F244BD2B-EB94-48A0-A1E8-CF622816EA03.JPG" alt="IOW Takeover Moment 6" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+6+Not+Found';">
                          </div>
                      </div>
@@ -263,15 +276,25 @@
     </div>
 
     <footer>
-        <div class="mb-4"> <span class="footer-logos">
-                Made with <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub Logo"></a>
+        <div class="footer-content">
+            <span class="footer-item">
+                Made with
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub Logo">
+                </a>
             </span>
+
             <span class="footer-separator">|</span>
-            <span class="footer-logos">
-                Powered by <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" alt="Cloudflare Logo"></a>
+
+            <span class="footer-item">
+                Powered by
+                <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" alt="Cloudflare Logo">
+                </a>
             </span>
-             <span class="footer-separator">|</span>
-             <a href="privy.html">Privacy</a> </div>
+
+            <span class="footer-separator">|</span> <a href="privy.html" class="footer-item">Privacy</a>
+        </div>
 
         <div class="turnstile-container">
             <div class="cf-turnstile" data-sitekey="0x4AAAAAABD-MSaX-kkjRtpH" data-theme="dark"></div>
