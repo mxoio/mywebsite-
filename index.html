@@ -3,55 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#000000"> <title>Isle of Wight Takeover Countdown</title>
+    <meta name="theme-color" content="#000000">
+    <title>Isle of Wight Takeover Countdown</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
-      /* Custom base styles */
-      html {
-         /* Set root background color to extend into safe areas */
-         background-color: #000000; /* Match the dark gradient start/end */
-      }
-      html, body {
-          height: 100%;
-          width: 100%;
-          margin: 0;
-          padding: 0;
-          overflow-x: hidden; /* Keep this */
-      }
-      body {
-        font-family: 'Inter', sans-serif;
-        min-height: 100%; /* Ensure body stretches */
-        box-sizing: border-box; /* Include padding in height calculation */
-        /* Add padding to account for safe areas - content won't be hidden */
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
-      }
-      /* Style for the countdown numbers */
-      .countdown-number {
-        font-weight: 900;
-        font-size: clamp(2.5rem, 10vw, 6rem);
-        line-height: 1;
-        color: #ffffff;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      }
-      /* Style for the countdown labels */
-      .countdown-label {
-        font-size: clamp(0.8rem, 3vw, 1.2rem);
-        color: #cbd5e1; /* slate-300 */
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-       /* Style for the message box */
-       #message-box {
+        /* Custom base styles */
+        html {
+            /* Set root background color to extend into safe areas */
+            background-color: #000000; /* Match the dark gradient start/end */
+        }
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Keep this */
+            display: flex; /* Use flexbox for footer */
+            flex-direction: column; /* Stack content vertically */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            flex-grow: 1; /* Allow body to grow and push footer down */
+            box-sizing: border-box; /* Include padding in height calculation */
+            /* Add padding to account for safe areas - content won't be hidden */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        /* Main content container */
+        .main-content {
+             flex-grow: 1; /* Takes up available space */
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             width: 100%;
+             padding: 1.5rem; /* p-6 */
+        }
+        /* Style for the countdown numbers */
+        .countdown-number {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            line-height: 1;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        /* Style for the countdown labels */
+        .countdown-label {
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
+            color: #cbd5e1; /* slate-300 */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Style for the message box */
+        #message-box {
             position: fixed;
             top: calc(20px + env(safe-area-inset-top)); /* Adjust for safe area */
             left: 50%;
@@ -66,11 +80,12 @@
             transition: opacity 0.5s ease-in-out;
             font-size: 1rem;
             text-align: center;
+            pointer-events: none; /* Prevent interaction */
         }
         #message-box.show {
             opacity: 1;
         }
-        /* Style for SVG icons */
+        /* Style for SVG icons in labels */
         .label-icon {
             width: 1.1em;
             height: 1.1em;
@@ -125,92 +140,149 @@
             opacity: 1;
             background-color: #38bdf8; /* sky-500 */
         }
-
+        /* Footer Styles */
+        footer {
+            width: 100%;
+            padding: 1.5rem; /* p-6 */
+            padding-top: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom)); /* Add padding for safe area */
+            text-align: center;
+            color: #94a3b8; /* slate-400 */
+            font-size: 0.875rem; /* text-sm */
+            margin-top: auto; /* Push footer to bottom */
+            background-color: rgba(15, 23, 42, 0.3); /* slate-900 with opacity */
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle top border */
+        }
+        footer a {
+            color: #38bdf8; /* sky-500 */
+            text-decoration: underline;
+            margin: 0 0.5rem; /* Add horizontal margin */
+        }
+        footer a:hover {
+            color: #7dd3fc; /* sky-300 */
+        }
+        .footer-logos img {
+            height: 1.2em; /* Control logo size */
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0.25rem; /* Add space around logos */
+            filter: grayscale(100%) brightness(1.5); /* Make logos subtle */
+        }
+        .footer-separator {
+            margin: 0 0.5rem;
+            opacity: 0.5;
+        }
+        /* Turnstile widget container */
+        .turnstile-container {
+            margin-top: 1rem; /* Space above Turnstile */
+            display: flex;
+            justify-content: center; /* Center the widget */
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 to-black flex flex-col items-center justify-center text-white p-6"> <div id="message-box"></div>
+<body class="bg-gradient-to-br from-slate-900 to-black text-white">
 
-    <div class="text-center max-w-4xl mx-auto w-full">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">
-            Isle of Wight Takeover 2025
-        </h1>
-        <p class="text-lg md:text-xl text-slate-300 mb-8">
-            Get ready! The countdown is on.
-        </p>
+    <div id="message-box"></div>
 
-        <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mb-8">
-             <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
-                <div id="days" class="countdown-number">00</div>
-                <div class="countdown-label mt-2">
-                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/calendar-days.svg" alt="Days" class="label-icon" /> Days
-                </div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
-                <div id="hours" class="countdown-number">00</div>
-                <div class="countdown-label mt-2">
-                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/clock.svg" alt="Hours" class="label-icon" /> Hours
-                </div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
-                <div id="minutes" class="countdown-number">00</div>
-                <div class="countdown-label mt-2">
-                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/timer.svg" alt="Minutes" class="label-icon" /> Minutes
-                </div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
-                <div id="seconds" class="countdown-number">00</div>
-                <div class="countdown-label mt-2">
-                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/hourglass.svg" alt="Seconds" class="label-icon" /> Seconds
-                </div>
-            </div>
-        </div>
+    <div class="main-content">
+        <div class="text-center max-w-4xl mx-auto w-full">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">
+                Isle of Wight Takeover 2025
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-8">
+                Get ready! The countdown is on.
+            </p>
 
-        <div class="my-8 md:my-12">
-             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-200">Event Moments</h2>
-             <div class="swiper-container">
-                 <div class="swiper-wrapper">
-                     <div class="swiper-slide">
-                         <img src="images/slideshow/4EF41F44-67EE-464D-A2A0-51C6997E2BDF.JPG" alt="IOW Takeover Moment 1" onerror="this.onerror=null; this.src='https://placehold.co/800x450/334155/e2e8f0?text=Image+1+Not+Found';">
-                     </div>
-                     <div class="swiper-slide">
-                         <img src="images/slideshow/7945CA0B-1AE7-4D35-A275-01A9DC1E8B1D.JPG" alt="IOW Takeover Moment 2" onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+2+Not+Found';">
-                     </div>
-                     <div class="swiper-slide">
-                         <img src="images/slideshow/AE251133-6429-4E49-98F7-D5F4F7E06491.JPG" alt="IOW Takeover Moment 3" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+3+Not+Found';">
-                     </div>
-                     <div class="swiper-slide">
-                         <img src="images/slideshow/B1E1EE77-7CE4-4F70-8FA3-4AA9B36A197E.JPG" alt="IOW Takeover Moment 4" onerror="this.onerror=null; this.src='https://placehold.co/800x450/334155/e2e8f0?text=Image+4+Not+Found';">
-                     </div>
-                     <div class="swiper-slide">
-                         <img src="images/slideshow/C9D81B65-8AE3-4A09-A8B7-7996794A88DE.JPG" alt="IOW Takeover Moment 5" onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+5+Not+Found';">
-                     </div>
-                      <div class="swiper-slide">
-                         <img src="images/slideshow/F244BD2B-EB94-48A0-A1E8-CF622816EA03.JPG" alt="IOW Takeover Moment 6" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+6+Not+Found';">
+            <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mb-8">
+                 <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                     <div id="days" class="countdown-number">00</div>
+                     <div class="countdown-label mt-2">
+                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/calendar-days.svg" alt="" class="label-icon" /> Days
                      </div>
                  </div>
-                 <div class="swiper-pagination"></div>
-                 <div class="swiper-button-prev"></div>
-                 <div class="swiper-button-next"></div>
-             </div>
-        </div>
+                 <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                     <div id="hours" class="countdown-number">00</div>
+                     <div class="countdown-label mt-2">
+                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/clock.svg" alt="" class="label-icon" /> Hours
+                     </div>
+                 </div>
+                 <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                     <div id="minutes" class="countdown-number">00</div>
+                     <div class="countdown-label mt-2">
+                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/timer.svg" alt="" class="label-icon" /> Minutes
+                     </div>
+                 </div>
+                 <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
+                     <div id="seconds" class="countdown-number">00</div>
+                     <div class="countdown-label mt-2">
+                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/hourglass.svg" alt="" class="label-icon" /> Seconds
+                     </div>
+                 </div>
+            </div>
 
-        <p id="event-date" class="mt-8 md:mt-10 text-slate-400 text-sm md:text-base">
-            Event starts: May 16, 2025, 3:00 PM BST
-        </p>
+            <div class="my-8 md:my-12">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-200">Event Moments</h2>
+                 <div class="swiper-container">
+                     <div class="swiper-wrapper">
+                         <div class="swiper-slide">
+                             <img src="images/slideshow/4EF41F44-67EE-464D-A2A0-51C6997E2BDF.JPG" alt="IOW Takeover Moment 1" onerror="this.onerror=null; this.src='https://placehold.co/800x450/334155/e2e8f0?text=Image+1+Not+Found';">
+                         </div>
+                         <div class="swiper-slide">
+                             <img src="images/slideshow/7945CA0B-1AE7-4D35-A275-01A9DC1E8B1D.JPG" alt="IOW Takeover Moment 2" onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+2+Not+Found';">
+                         </div>
+                         <div class="swiper-slide">
+                             <img src="images/slideshow/AE251133-6429-4E49-98F7-D5F4F7E06491.JPG" alt="IOW Takeover Moment 3" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+3+Not+Found';">
+                         </div>
+                         <div class="swiper-slide">
+                             <img src="images/slideshow/B1E1EE77-7CE4-4F70-8FA3-4AA9B36A197E.JPG" alt="IOW Takeover Moment 4" onerror="this.onerror=null; this.src='https://placehold.co/800x450/334155/e2e8f0?text=Image+4+Not+Found';">
+                         </div>
+                         <div class="swiper-slide">
+                             <img src="images/slideshow/C9D81B65-8AE3-4A09-A8B7-7996794A88DE.JPG" alt="IOW Takeover Moment 5" onerror="this.onerror=null; this.src='https://placehold.co/800x450/1e293b/94a3b8?text=Image+5+Not+Found';">
+                         </div>
+                          <div class="swiper-slide">
+                             <img src="images/slideshow/F244BD2B-EB94-48A0-A1E8-CF622816EA03.JPG" alt="IOW Takeover Moment 6" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/64748b?text=Image+6+Not+Found';">
+                         </div>
+                     </div>
+                     <div class="swiper-pagination"></div>
+                     <div class="swiper-button-prev"></div>
+                     <div class="swiper-button-next"></div>
+                 </div>
+            </div>
 
-         <div class="mt-8 md:mt-12">
-            <a href="https://chat.whatsapp.com/I5FwInQm9i77O5kBepUjWA" target="_blank" rel="noopener noreferrer"
-               class="inline-block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
-                Visit WhatsApp Chat
-            </a>
+            <p id="event-date" class="mt-8 md:mt-10 text-slate-400 text-sm md:text-base">
+                Event starts: May 16, 2025, 3:00 PM BST
+            </p>
+
+            <div class="mt-8 md:mt-12">
+                <a href="https://chat.whatsapp.com/I5FwInQm9i77O5kBepUjWA" target="_blank" rel="noopener noreferrer"
+                    class="inline-block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
+                    Visit WhatsApp Chat
+                </a>
+            </div>
         </div>
     </div>
+
+    <footer>
+        <div class="mb-4"> <span class="footer-logos">
+                Made with <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub Logo"></a>
+            </span>
+            <span class="footer-separator">|</span>
+            <span class="footer-logos">
+                Powered by <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" alt="Cloudflare Logo"></a>
+            </span>
+             <span class="footer-separator">|</span>
+             <a href="privy.html">Privacy</a> </div>
+
+        <div class="turnstile-container">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAABD-MSaX-kkjRtpH" data-theme="dark"></div>
+        </div>
+    </footer>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
         // --- Configuration ---
-        const targetDate = new Date('2025-05-16T15:00:00+01:00').getTime();
+        const targetDate = new Date('2025-05-16T15:00:00+01:00').getTime(); // Target date in BST (British Summer Time, UTC+1)
 
         // --- DOM Elements ---
         const daysEl = document.getElementById('days');
@@ -226,19 +298,24 @@
             if (!messageBox) return;
             messageBox.textContent = message;
             messageBox.classList.add('show');
+            // Automatically hide after 5 seconds
             setTimeout(() => {
                 messageBox.classList.remove('show');
             }, 5000);
         }
 
         // --- Countdown Logic ---
+        let countdownInterval; // Declare interval variable
+
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
+            // Check if the countdown has finished
             if (distance < 0) {
-                clearInterval(countdownInterval);
+                clearInterval(countdownInterval); // Stop the interval
                 if (countdownEl) {
+                    // Display the "event happening now" message
                     countdownEl.innerHTML = `
                         <div class="col-span-2 sm:col-span-4 text-center bg-green-600/30 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-green-400/50">
                             <div class="text-3xl md:text-4xl font-bold text-green-300">The Takeover is happening now!</div>
@@ -246,17 +323,24 @@
                     `;
                 }
                 if (eventDateEl) {
+                    // Update the event date text
                     eventDateEl.textContent = "Event Started: May 16, 2025, 3:00 PM BST";
                 }
-                showMessage("The Isle of Wight Takeover has started!");
-                return;
+                // Show a notification message only once when it starts
+                if (!sessionStorage.getItem('eventStartedMessageShown')) {
+                    showMessage("The Isle of Wight Takeover has started!");
+                    sessionStorage.setItem('eventStartedMessageShown', 'true'); // Prevent showing again on refresh
+                }
+                return; // Exit the function
             }
 
+            // Calculate time units
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Update DOM elements if they exist
             if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
             if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
             if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
@@ -266,35 +350,40 @@
         // --- Swiper Initialization ---
         // Ensure Swiper is initialized after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
-            const swiper = new Swiper('.swiper-container', {
-                // Optional parameters
-                loop: true, // Enable continuous loop mode
-                autoplay: {
-                    delay: 4000, // Autoplay delay in milliseconds
-                    disableOnInteraction: false, // Autoplay continues even after user interaction
-                },
-                // If we need pagination
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true, // Allow clicking on pagination bullets
-                },
-                // Navigation arrows
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                // Accessibility features
-                a11y: {
-                    prevSlideMessage: 'Previous slide',
-                    nextSlideMessage: 'Next slide',
-                },
-            });
+            try {
+                const swiper = new Swiper('.swiper-container', {
+                    // Optional parameters
+                    loop: true, // Enable continuous loop mode
+                    autoplay: {
+                        delay: 4000, // Autoplay delay in milliseconds
+                        disableOnInteraction: false, // Autoplay continues even after user interaction
+                    },
+                    // Pagination
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true, // Allow clicking on pagination bullets
+                    },
+                    // Navigation arrows
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    // Accessibility features
+                    a11y: {
+                        prevSlideMessage: 'Previous slide',
+                        nextSlideMessage: 'Next slide',
+                    },
+                });
+            } catch (error) {
+                console.error("Failed to initialize Swiper:", error);
+                // Optionally show an error message to the user
+                // showMessage("Error loading image slideshow.");
+            }
+
+            // --- Countdown Initialization ---
+            updateCountdown(); // Initial countdown update immediately on load
+            countdownInterval = setInterval(updateCountdown, 1000); // Start the interval timer
         });
-
-
-        // --- Countdown Initialization ---
-        updateCountdown(); // Initial countdown update
-        const countdownInterval = setInterval(updateCountdown, 1000);
 
     </script>
 </body>
