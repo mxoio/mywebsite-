@@ -1,0 +1,19 @@
+# Dependabot configuration for IOW Takeover 2026 website
+# Automatically checks for updates to GitHub Actions
+
+version: 2
+updates:
+  # Monitor GitHub Actions for updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
+
+  # Note: This is a static site using CDN resources
+  # No npm/pip/etc dependencies to monitor
+  # If you add a package.json or requirements.txt later,
+  # add additional package-ecosystem entries here

@@ -1,0 +1,95 @@
+name: Site Quality Checks
+
+on:
+  push:
+    branches: [ main, feat/** ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate HTML and Check Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install html5validator
+
+      - name: Validate HTML
+        run: |
+          echo "Validating HTML files..."
+          html5validator --root . --ignore-re 'Attribute.*not allowed' || true
+          echo "HTML validation complete (warnings allowed)"
+
+      - name: Start test server
+        run: |
+          python3 -m http.server 8000 &
+          echo "Waiting for server to start..."
+          sleep 3
+
+      - name: Check for broken internal links
+        run: |
+          echo "Checking internal links..."
+          # Simple check that index.html loads
+          curl -f http://localhost:8000/index.html || (echo "Failed to load index.html" && exit 1)
+          curl -f http://localhost:8000/privy.html || (echo "Failed to load privy.html" && exit 1)
+          echo "Basic link check passed"
+
+      - name: Check for large images
+        run: |
+          echo "Checking for large image files..."
+          find images -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) -size +500k -exec echo "Warning: Large image file: {}" \; || true
+
+      - name: Verify required files
+        run: |
+          echo "Verifying required files exist..."
+          test -f index.html || (echo "Missing index.html" && exit 1)
+          test -f manifest.json || (echo "Missing manifest.json" && exit 1)
+          test -f robots.txt || (echo "Missing robots.txt" && exit 1)
+          test -f sitemap.xml || (echo "Missing sitemap.xml" && exit 1)
+          echo "All required files present"
+
+      - name: Check for accessibility basics
+        run: |
+          echo "Checking basic accessibility..."
+          # Check for alt attributes on images (basic check)
+          grep -r 'alt=' index.html > /dev/null || (echo "Warning: No alt attributes found" && exit 0)
+          # Check for ARIA labels
+          grep -r 'aria-' index.html > /dev/null || (echo "Warning: No ARIA attributes found" && exit 0)
+          echo "Basic accessibility checks passed"
+
+  lighthouse:
+    name: Lighthouse Performance Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Start test server
+        run: |
+          python3 -m http.server 8000 &
+          sleep 3
+
+      - name: Run Lighthouse
+        run: |
+          lhci autorun --collect.url=http://localhost:8000 --collect.numberOfRuns=1 || echo "Lighthouse check completed (non-blocking)"
