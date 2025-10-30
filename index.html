@@ -4,7 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
-    <title>Isle of Wight Takeover Countdown</title>
+    <title>Isle of Wight Takeover 2026 Countdown</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Isle of Wight Takeover — community event. Expected Summer 2026. Photos and details to follow.">
+    <meta name="keywords" content="Isle of Wight, IOW, Takeover, 2026, event, community">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="IOW Takeover — 2026 (expected)">
+    <meta property="og:description" content="Join us for the Isle of Wight takeover in 2026 — dates TBC.">
+    <meta property="og:image" content="images/iow-2026/iow2026-hero.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IOW Takeover — 2026 (expected)">
+    <meta name="twitter:description" content="Join us for the Isle of Wight takeover in 2026 — dates TBC.">
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://challenges.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com;">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,22 +211,71 @@
             display: flex;
             justify-content: center; /* Center the widget */
         }
+        /* Keyboard focus visibility for accessibility */
+        a:focus, button:focus, .swiper-button-next:focus, .swiper-button-prev:focus {
+            outline: 3px solid #38bdf8; /* sky-500 */
+            outline-offset: 2px;
+        }
+        /* Update banner (dismissible) */
+        .update-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%); /* sky-900 to sky-800 */
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            z-index: 2000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .update-banner.hidden {
+            display: none;
+        }
+        .update-banner button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background 0.2s;
+        }
+        .update-banner button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 to-black text-white">
+
+    <!-- Update Banner (dismissible) -->
+    <div id="update-banner" class="update-banner hidden">
+        <span>📅 Dates for IOW Takeover 2026 are not yet confirmed — check back for updates!</span>
+        <button id="dismiss-banner" aria-label="Dismiss update banner">Got it</button>
+    </div>
 
     <div id="message-box"></div>
 
     <div class="main-content">
         <div class="text-center max-w-4xl mx-auto w-full">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">
-                Isle of Wight Takeover 2025
+                Isle of Wight Takeover — 2026 (expected)
             </h1>
-            <p class="text-lg md:text-xl text-slate-300 mb-8">
-                Get ready! The countdown is on.
+            <p class="text-lg md:text-xl text-slate-300 mb-4">
+                We're planning an Isle of Wight takeover in 2026 — exact dates are still to be confirmed,
+                but historically this event lands in <strong>Summer 2026</strong>.
+            </p>
+            <p class="text-base md:text-lg text-slate-400 mb-8">
+                This page will be updated as soon as dates are finalised.
             </p>
 
-            <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mb-8">
+            <div id="countdown" role="timer" aria-live="polite" aria-atomic="true" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mb-8">
                  <div class="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-lg text-center shadow-lg border border-white/20">
                      <div id="days" class="countdown-number">00</div>
                      <div class="countdown-label mt-2">
@@ -235,6 +304,9 @@
 
             <div class="my-8 md:my-12">
                  <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-200">Event Moments</h2>
+                 <p class="text-slate-400 text-sm md:text-base mb-4">
+                     Photos from last year's event shown below. We'll replace these with 2026 photos when available.
+                 </p>
                  <div class="swiper-container">
                      <div class="swiper-wrapper">
                          <div class="swiper-slide">
@@ -263,13 +335,13 @@
             </div>
 
             <p id="event-date" class="mt-8 md:mt-10 text-slate-400 text-sm md:text-base">
-                Event starts: May 16, 2025, 3:00 PM BST
+                Tentative date: July 1, 2026 — <em>Not yet confirmed</em>
             </p>
 
             <div class="mt-8 md:mt-12">
                 <a href="https://chat.whatsapp.com/I5FwInQm9i77O5kBepUjWA" target="_blank" rel="noopener noreferrer"
-                    class="inline-block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    Visit WhatsApp Chat
+                    class="inline-block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-sky-300 focus:ring-offset-2 focus:ring-offset-black">
+                    Join the Takeover — WhatsApp Group
                 </a>
             </div>
         </div>
@@ -305,7 +377,9 @@
 
     <script>
         // --- Configuration ---
-        const targetDate = new Date('2025-05-16T15:00:00+01:00').getTime(); // Target date in BST (British Summer Time, UTC+1)
+        // Tentative target: July 1, 2026 (adjust when official date is confirmed)
+        const targetDate = new Date('2026-07-01T15:00:00+01:00').getTime(); // Target date in BST (British Summer Time, UTC+1)
+        const confirmed = false; // Change to true when date is confirmed
 
         // --- DOM Elements ---
         const daysEl = document.getElementById('days');
@@ -338,20 +412,23 @@
             if (distance < 0) {
                 clearInterval(countdownInterval); // Stop the interval
                 if (countdownEl) {
-                    // Display the "event happening now" message
+                    // Display different message based on whether date is confirmed
+                    const message = confirmed
+                        ? "The Takeover is happening now!"
+                        : "Expected takeover date has arrived or passed — check for updates!";
                     countdownEl.innerHTML = `
                         <div class="col-span-2 sm:col-span-4 text-center bg-green-600/30 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-green-400/50">
-                            <div class="text-3xl md:text-4xl font-bold text-green-300">The Takeover is happening now!</div>
+                            <div class="text-3xl md:text-4xl font-bold text-green-300">${message}</div>
                         </div>
                     `;
                 }
-                if (eventDateEl) {
-                    // Update the event date text
-                    eventDateEl.textContent = "Event Started: May 16, 2025, 3:00 PM BST";
+                if (eventDateEl && confirmed) {
+                    // Update the event date text only if confirmed
+                    eventDateEl.textContent = "Event Started: July 1, 2026, 3:00 PM BST";
                 }
                 // Show a notification message only once when it starts
                 if (!sessionStorage.getItem('eventStartedMessageShown')) {
-                    showMessage("The Isle of Wight Takeover has started!");
+                    showMessage(confirmed ? "The Isle of Wight Takeover has started!" : "Check for updated event dates!");
                     sessionStorage.setItem('eventStartedMessageShown', 'true'); // Prevent showing again on refresh
                 }
                 return; // Exit the function
@@ -370,9 +447,33 @@
             if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
         }
 
+        // --- Update Banner Management ---
+        function initUpdateBanner() {
+            const banner = document.getElementById('update-banner');
+            const dismissBtn = document.getElementById('dismiss-banner');
+            const bannerDismissed = localStorage.getItem('iow2026-banner-dismissed');
+
+            // Show banner if not previously dismissed
+            if (!bannerDismissed && banner) {
+                banner.classList.remove('hidden');
+            }
+
+            // Handle dismiss button
+            if (dismissBtn) {
+                dismissBtn.addEventListener('click', function() {
+                    if (banner) {
+                        banner.classList.add('hidden');
+                        localStorage.setItem('iow2026-banner-dismissed', 'true');
+                    }
+                });
+            }
+        }
+
         // --- Swiper Initialization ---
         // Ensure Swiper is initialized after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
+            // Initialize update banner
+            initUpdateBanner();
             try {
                 const swiper = new Swiper('.swiper-container', {
                     // Optional parameters
