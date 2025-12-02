@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#000000"> <title>Privacy Policy - mxioi.uk</title>
+    <meta name="theme-color" content="#000000">
+    <title>Privacy Policy - mxioi.uk</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +39,86 @@
       .privacy-content p { @apply mb-4 text-slate-300 leading-relaxed; }
       .privacy-content ul { @apply list-disc list-inside mb-4 text-slate-300 pl-4; }
       .privacy-content a { @apply text-sky-400 hover:underline; }
+      /* Theme toggle button */
+      .theme-toggle {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 2000;
+          background: rgba(15, 23, 42, 0.8);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(148, 163, 184, 0.2);
+          border-radius: 0.75rem;
+          padding: 0.5rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+      }
+      .theme-toggle:hover {
+          background: rgba(15, 23, 42, 1);
+          border-color: rgba(148, 163, 184, 0.4);
+          transform: scale(1.05);
+      }
+      .theme-toggle svg {
+          width: 20px;
+          height: 20px;
+          color: #94a3b8;
+          transition: all 0.3s ease;
+      }
+      .theme-toggle:hover svg {
+          color: #38bdf8;
+      }
+      /* Light mode - STRONG CONTRAST VERSION */
+      .light {
+          background: #f3f4f6 !important;
+      }
+      .light body {
+          background: #f3f4f6 !important;
+          color: #111827 !important;
+      }
+      .light .theme-toggle {
+          background: #ffffff;
+          border-color: #d1d5db;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .light .theme-toggle:hover {
+          background: #ffffff;
+          border-color: #9ca3af;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      }
+      .light .privacy-content h1 {
+          color: #111827 !important;
+      }
+      .light .privacy-content h2 {
+          color: #1f2937 !important;
+      }
+      .light .privacy-content p,
+      .light .privacy-content ul {
+          color: #374151 !important;
+      }
+      .light .privacy-content a {
+          color: #2563eb !important;
+      }
+      .light .privacy-content a:hover {
+          color: #1d4ed8 !important;
+      }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 to-black text-white p-6 md:p-10">
+<body class="bg-gradient-to-br from-slate-900 to-black text-white dark:text-white text-gray-800 p-6 md:p-10 transition-colors duration-300">
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+        </svg>
+        <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+    </button>
 
     <div class="max-w-3xl mx-auto privacy-content">
         <h1>Privacy Policy for mxioi.uk</h1>
@@ -90,6 +173,68 @@
         <p class="mt-8"><a href="/" class="text-sky-400 hover:underline">&larr; Back to Countdown</a></p>
 
     </div>
+
+    <script>
+        // Theme initialization - runs immediately to prevent flash
+        (function() {
+            // Check if user has a saved preference
+            const savedTheme = localStorage.getItem('theme');
+
+            let theme;
+            if (savedTheme) {
+                // User has explicitly chosen a theme - use it
+                theme = savedTheme;
+            } else {
+                // No saved preference - use system preference
+                // Check if system prefers dark mode
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+
+            if (theme === 'light') {
+                document.documentElement.classList.add('light');
+                document.body.classList.add('light');
+            }
+        })();
+
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+            function updateThemeIcons() {
+                const isLight = document.documentElement.classList.contains('light') ||
+                               document.body.classList.contains('light');
+                if (isLight) {
+                    themeToggleLightIcon.classList.remove('hidden');
+                    themeToggleDarkIcon.classList.add('hidden');
+                } else {
+                    themeToggleDarkIcon.classList.remove('hidden');
+                    themeToggleLightIcon.classList.add('hidden');
+                }
+            }
+
+            updateThemeIcons();
+
+            themeToggleBtn.addEventListener('click', function() {
+                const html = document.documentElement;
+                const body = document.body;
+
+                if (html.classList.contains('light') || body.classList.contains('light')) {
+                    html.classList.remove('light');
+                    body.classList.remove('light');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    html.classList.add('light');
+                    body.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                }
+
+                updateThemeIcons();
+            });
+        });
+    </script>
 
 </body>
 </html>

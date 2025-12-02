@@ -25,6 +25,10 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +40,7 @@
         /* Custom base styles */
         html {
             background-color: #000000;
+            scroll-behavior: smooth;
         }
         html, body {
             height: 100%;
@@ -183,23 +188,6 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: #ffffff;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            right: 10px;
-        }
-        .swiper-button-prev {
-            left: 10px;
-            right: auto;
-        }
-        .swiper-button-next::after,
-        .swiper-button-prev::after {
-            font-size: 1.5rem;
-        }
         .swiper-pagination-bullet {
             background-color: #ffffff;
             opacity: 0.6;
@@ -304,9 +292,207 @@
         .update-banner button:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
+        }
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 80px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+        }
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+        .theme-toggle:hover {
+            background: rgba(15, 23, 42, 1);
+            border-color: rgba(148, 163, 184, 0.4);
+            transform: scale(1.05);
+        }
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover svg {
+            color: #38bdf8;
+        }
+        /* Light mode adjustments */
+        .light .theme-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(15, 23, 42, 0.1);
+        }
+        .light .theme-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(15, 23, 42, 0.2);
+        }
+        @media (max-width: 640px) {
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+        }
+        /* Global light mode styles - STRONG CONTRAST VERSION */
+        .light {
+            background: #f3f4f6 !important;
+        }
+        .light body {
+            background: #f3f4f6 !important;
+            color: #111827 !important;
+        }
+        /* Remove any radial gradients or blur effects */
+        .light body::before {
+            display: none !important;
+        }
+        /* Headings - dark and crisp */
+        .light h1,
+        .light h2,
+        .light h3 {
+            color: #111827 !important;
+        }
+        /* Countdown cards - solid white with dark text */
+        .light .countdown-card {
+            background: #ffffff !important;
+            border-color: #e5e7eb !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+            backdrop-filter: none !important;
+        }
+        .light .countdown-number {
+            color: #111827 !important;
+            text-shadow: none !important;
+        }
+        .light .countdown-label {
+            color: #4b5563 !important;
+        }
+        /* Info cards - solid white with strong shadows */
+        .light .bg-slate-800\/30 {
+            background: #ffffff !important;
+            border-color: #e5e7eb !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+            backdrop-filter: none !important;
+        }
+        /* Text colors - high contrast */
+        .light .text-slate-200,
+        .light .text-slate-300,
+        .light .text-slate-400 {
+            color: #374151 !important;
+        }
+        .light p,
+        .light span {
+            color: #374151;
+        }
+        /* Icon backgrounds */
+        .light .bg-sky-500\/10 {
+            background: #dbeafe !important;
+        }
+        .light .text-sky-400 {
+            color: #2563eb !important;
+        }
+        /* Banner */
+        .light .update-banner {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+        }
+        /* Swiper - NO fade on inactive slides */
+        .light .swiper-slide {
+            opacity: 0.95 !important;
+        }
+        .light .swiper-slide-active {
+            opacity: 1 !important;
+        }
+        .light .swiper-pagination-bullet {
+            background-color: #374151 !important;
+        }
+        .light .swiper-pagination-bullet-active {
+            background-color: #2563eb !important;
+        }
+        /* Footer - solid background */
+        .light footer {
+            background-color: #ffffff !important;
+            border-top: 1px solid #e5e7eb !important;
+        }
+        .light footer a {
+            color: #2563eb !important;
+        }
+        .light .footer-separator {
+            color: #9ca3af;
+        }
+        /* Logo filters */
+        .footer-item img.dark-logo {
+            filter: invert(90%) sepia(13%) saturate(269%) hue-rotate(180deg) brightness(90%) contrast(88%);
+        }
+        .light .footer-item img.dark-logo {
+            filter: invert(1) grayscale(100%) brightness(0) !important;
+        }
+        /* Map container in light mode */
+        .light #map {
+            border-color: #d1d5db !important;
+        }
+        /* Buttons in light mode */
+        .light .bg-gradient-to-r {
+            background: linear-gradient(to right, #2563eb, #1d4ed8) !important;
+        }
+        .light .bg-gradient-to-r:hover {
+            background: linear-gradient(to right, #1d4ed8, #1e40af) !important;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 to-black text-white">
+<body class="bg-gradient-to-br from-slate-900 to-black dark:from-slate-900 dark:to-black bg-gray-50 text-white dark:text-white text-gray-800 transition-colors duration-300">
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+    </button>
 
     <!-- Update Banner (dismissible) -->
     <div id="update-banner" class="update-banner">
@@ -322,31 +508,31 @@
                 <div class="inline-block px-4 py-2 bg-sky-500/10 border border-sky-500/30 rounded-full mb-6">
                     <span class="text-sky-400 text-sm font-semibold tracking-wide">MAY 16-17, 2026</span>
                 </div>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight tracking-tight">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white dark:text-white light:text-gray-900 leading-tight tracking-tight">
                     Isle of Wight<br class="sm:hidden" /> Takeover 2026
                 </h1>
-                <p class="text-lg sm:text-xl md:text-2xl text-slate-300 mb-6 leading-relaxed max-w-3xl mx-auto font-light">
+                <p class="text-lg sm:text-xl md:text-2xl text-slate-300 dark:text-slate-300 light:text-gray-700 mb-6 leading-relaxed max-w-3xl mx-auto font-light">
                     The countdown begins. Join us for an unforgettable community event.
                 </p>
-                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto">
+                <p class="text-sm sm:text-base text-slate-400 dark:text-slate-400 light:text-gray-600 max-w-2xl mx-auto">
                     Party on Saturday 16th May • Main Event on Sunday 17th May
                 </p>
             </div>
 
-            <div id="countdown" role="timer" aria-live="polite" aria-atomic="true" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 max-w-5xl mx-auto">
-                 <div class="countdown-card bg-slate-800/50 backdrop-blur-lg p-6 sm:p-8 rounded-xl text-center shadow-xl border border-slate-700/50 transition-all duration-300 hover:bg-slate-800/70 hover:border-slate-600">
+            <div id="countdown" role="timer" aria-live="polite" aria-atomic="true" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16 max-w-5xl mx-auto">
+                 <div class="countdown-card bg-slate-800/50 dark:bg-slate-800/50 light:bg-white backdrop-blur-lg p-6 sm:p-8 rounded-2xl text-center shadow-2xl border border-slate-700/50 dark:border-slate-700/50 light:border-gray-200 transition-all duration-300 hover:bg-slate-800/70 dark:hover:bg-slate-800/70 light:hover:bg-gray-50 hover:border-sky-500/50 hover:shadow-sky-500/20">
                      <div id="days" class="countdown-number">00</div>
                      <div class="countdown-label">Days</div>
                  </div>
-                 <div class="countdown-card bg-slate-800/50 backdrop-blur-lg p-6 sm:p-8 rounded-xl text-center shadow-xl border border-slate-700/50 transition-all duration-300 hover:bg-slate-800/70 hover:border-slate-600">
+                 <div class="countdown-card bg-slate-800/50 dark:bg-slate-800/50 light:bg-white backdrop-blur-lg p-6 sm:p-8 rounded-2xl text-center shadow-2xl border border-slate-700/50 dark:border-slate-700/50 light:border-gray-200 transition-all duration-300 hover:bg-slate-800/70 dark:hover:bg-slate-800/70 light:hover:bg-gray-50 hover:border-sky-500/50 hover:shadow-sky-500/20">
                      <div id="hours" class="countdown-number">00</div>
                      <div class="countdown-label">Hours</div>
                  </div>
-                 <div class="countdown-card bg-slate-800/50 backdrop-blur-lg p-6 sm:p-8 rounded-xl text-center shadow-xl border border-slate-700/50 transition-all duration-300 hover:bg-slate-800/70 hover:border-slate-600">
+                 <div class="countdown-card bg-slate-800/50 dark:bg-slate-800/50 light:bg-white backdrop-blur-lg p-6 sm:p-8 rounded-2xl text-center shadow-2xl border border-slate-700/50 dark:border-slate-700/50 light:border-gray-200 transition-all duration-300 hover:bg-slate-800/70 dark:hover:bg-slate-800/70 light:hover:bg-gray-50 hover:border-sky-500/50 hover:shadow-sky-500/20">
                      <div id="minutes" class="countdown-number">00</div>
                      <div class="countdown-label">Minutes</div>
                  </div>
-                 <div class="countdown-card bg-slate-800/50 backdrop-blur-lg p-6 sm:p-8 rounded-xl text-center shadow-xl border border-slate-700/50 transition-all duration-300 hover:bg-slate-800/70 hover:border-slate-600">
+                 <div class="countdown-card bg-slate-800/50 dark:bg-slate-800/50 light:bg-white backdrop-blur-lg p-6 sm:p-8 rounded-2xl text-center shadow-2xl border border-slate-700/50 dark:border-slate-700/50 light:border-gray-200 transition-all duration-300 hover:bg-slate-800/70 dark:hover:bg-slate-800/70 light:hover:bg-gray-50 hover:border-sky-500/50 hover:shadow-sky-500/20">
                      <div id="seconds" class="countdown-number">00</div>
                      <div class="countdown-label">Seconds</div>
                  </div>
@@ -354,15 +540,15 @@
 
             <!-- Event Details Section -->
             <div class="my-12 md:my-16">
-                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-slate-200">Event Details</h2>
-                <p class="text-slate-400 text-center mb-8 max-w-2xl mx-auto">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-slate-200 dark:text-slate-200 light:text-gray-900">Event Details</h2>
+                <p class="text-slate-400 dark:text-slate-400 light:text-gray-700 text-center mb-8 max-w-2xl mx-auto">
                     Mark your calendars! Two days of action-packed events at Downend Rd, Newport PO30 2NU. Join the WhatsApp group for updates!
                 </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
                     <!-- Date & Time -->
-                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-                        <div class="flex items-start gap-4">
+                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 h-full">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-sky-500/10 p-3 rounded-lg">
                                 <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -384,8 +570,8 @@
                     </div>
 
                     <!-- Location -->
-                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-                        <div class="flex items-start gap-4">
+                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 h-full">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-sky-500/10 p-3 rounded-lg">
                                 <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -401,8 +587,8 @@
                     </div>
 
                     <!-- Registration -->
-                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-                        <div class="flex items-start gap-4">
+                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 h-full">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-sky-500/10 p-3 rounded-lg">
                                 <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
@@ -423,8 +609,8 @@
                     </div>
 
                     <!-- What to Bring -->
-                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-xl border border-slate-700/50">
-                        <div class="flex items-start gap-4">
+                    <div class="bg-slate-800/30 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 h-full">
+                        <div class="flex items-start gap-4 h-full">
                             <div class="bg-sky-500/10 p-3 rounded-lg">
                                 <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -442,8 +628,8 @@
             </div>
 
             <div class="my-8 md:my-12">
-                 <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-200">Event Moments</h2>
-                 <p class="text-slate-400 text-sm md:text-base mb-4">
+                 <h2 class="text-2xl md:text-3xl font-bold mb-6 text-slate-200">Event Moments</h2>
+                 <p class="text-slate-400 text-sm md:text-base mb-6">
                      Photos from IOW Takeover 2025 — relive the memories!
                  </p>
                  <div class="swiper-container">
@@ -467,9 +653,7 @@
                              <img src="images/slideshow/fit_2560 (2).jpg" alt="IOW Takeover 2025 - Photo 6" loading="lazy">
                          </div>
                      </div>
-                     <div class="swiper-pagination"></div>
-                     <div class="swiper-button-prev"></div>
-                     <div class="swiper-button-next"></div>
+                     <div class="swiper-pagination mt-4"></div>
                  </div>
             </div>
 
@@ -480,7 +664,18 @@
                     Isle of Wight — where memories are made. Join us at Downend Rd, Newport PO30 2NU!
                 </p>
                 <div class="max-w-4xl mx-auto">
-                    <div id="map" class="w-full h-96 rounded-xl shadow-2xl border-2 border-slate-700/50 overflow-hidden"></div>
+                    <div class="relative group cursor-pointer" onclick="window.open('https://www.google.com/maps/search/?api=1&query=Downend+Rd%2C+Newport+PO30+2NU', '_blank')">
+                        <div id="map" class="w-full h-96 rounded-xl shadow-2xl border-2 border-slate-700/50 overflow-hidden pointer-events-none"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 rounded-xl pointer-events-none">
+                            <div class="bg-sky-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span class="font-semibold">Open in Maps</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -490,7 +685,7 @@
 
             <div class="mt-16 mb-12">
                 <a href="https://chat.whatsapp.com/LkC7T6mxJ4rGYkhIJNMwgr" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center gap-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300 focus:ring-offset-2 focus:ring-offset-black text-lg">
+                    class="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-semibold py-4 px-8 rounded-2xl shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-300 focus:ring-offset-2 focus:ring-offset-black text-lg">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                     </svg>
@@ -509,12 +704,20 @@
         <span class="text-sm">Join Group</span>
     </a>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
     <footer>
         <div class="footer-content">
             <span class="footer-item">
                 Made with
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub Logo">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub" class="inline-flex">
+                    <!-- GitHub logo - white for dark mode, black for light mode -->
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub Logo" class="dark-logo">
                 </a>
             </span>
 
@@ -522,8 +725,9 @@
 
             <span class="footer-item">
                 Powered by
-                <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" alt="Cloudflare Logo">
+                <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare" class="inline-flex">
+                    <!-- Cloudflare logo - inverted for light mode -->
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" alt="Cloudflare Logo" class="dark-logo">
                 </a>
             </span>
 
@@ -534,6 +738,30 @@
             <div class="cf-turnstile" data-sitekey="0x4AAAAAABD-MSaX-kkjRtpH" data-theme="dark"></div>
         </div>
     </footer>
+
+    <script>
+        // Theme initialization - runs immediately to prevent flash
+        (function() {
+            // Check if user has a saved preference
+            const savedTheme = localStorage.getItem('theme');
+
+            let theme;
+            if (savedTheme) {
+                // User has explicitly chosen a theme - use it
+                theme = savedTheme;
+            } else {
+                // No saved preference - use system preference
+                // Check if system prefers dark mode
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+
+            if (theme === 'light') {
+                document.documentElement.classList.add('light');
+                document.body.classList.add('light');
+            }
+        })();
+    </script>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -664,11 +892,6 @@
                         el: '.swiper-pagination',
                         clickable: true, // Allow clicking on pagination bullets
                     },
-                    // Navigation arrows
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
                     // Accessibility features
                     a11y: {
                         prevSlideMessage: 'Previous slide',
@@ -711,6 +934,66 @@
             // --- Countdown Initialization ---
             updateCountdown(); // Initial countdown update immediately on load
             countdownInterval = setInterval(updateCountdown, 1000); // Start the interval timer
+
+            // --- Back to Top Button ---
+            const backToTopBtn = document.getElementById('back-to-top');
+
+            // Show/hide button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+
+            // Scroll to top when clicked
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // --- Theme Toggle ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+            // Set initial icon visibility
+            function updateThemeIcons() {
+                const isLight = document.documentElement.classList.contains('light') ||
+                               document.body.classList.contains('light');
+                if (isLight) {
+                    themeToggleLightIcon.classList.remove('hidden');
+                    themeToggleDarkIcon.classList.add('hidden');
+                } else {
+                    themeToggleDarkIcon.classList.remove('hidden');
+                    themeToggleLightIcon.classList.add('hidden');
+                }
+            }
+
+            updateThemeIcons();
+
+            // Toggle theme on button click
+            themeToggleBtn.addEventListener('click', function() {
+                const html = document.documentElement;
+                const body = document.body;
+
+                if (html.classList.contains('light') || body.classList.contains('light')) {
+                    // Switch to dark
+                    html.classList.remove('light');
+                    body.classList.remove('light');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    // Switch to light
+                    html.classList.add('light');
+                    body.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                }
+
+                updateThemeIcons();
+            });
         });
 
     </script>
