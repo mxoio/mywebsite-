@@ -356,7 +356,7 @@
             <div class="my-12 md:my-16">
                 <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-slate-200">Event Details</h2>
                 <p class="text-slate-400 text-center mb-8 max-w-2xl mx-auto">
-                    Mark your calendars! Two days of action-packed events. Specific meeting points and activities TBA. Join the WhatsApp group for updates!
+                    Mark your calendars! Two days of action-packed events at Downend Rd, Newport PO30 2NU. Join the WhatsApp group for updates!
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -394,8 +394,8 @@
                             </div>
                             <div class="flex-1">
                                 <h3 class="text-lg font-semibold text-slate-200 mb-2">Location</h3>
-                                <p class="text-slate-400 text-sm">Isle of Wight</p>
-                                <p class="text-slate-500 text-xs mt-1">Specific meeting points TBA</p>
+                                <p class="text-slate-400 text-sm">Downend Rd, Newport PO30 2NU</p>
+                                <p class="text-slate-500 text-xs mt-1">Isle of Wight</p>
                             </div>
                         </div>
                     </div>
@@ -477,7 +477,7 @@
             <div class="my-12 md:my-16">
                 <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-slate-200">The Island</h2>
                 <p class="text-slate-400 text-center mb-8 max-w-2xl mx-auto">
-                    Isle of Wight — where memories are made. Specific locations coming soon!
+                    Isle of Wight — where memories are made. Join us at Downend Rd, Newport PO30 2NU!
                 </p>
                 <div class="max-w-4xl mx-auto">
                     <div id="map" class="w-full h-96 rounded-xl shadow-2xl border-2 border-slate-700/50 overflow-hidden"></div>
@@ -684,8 +684,8 @@
             // --- Map Initialization ---
             try {
                 const map = L.map('map', {
-                    center: [50.693, -1.305], // Isle of Wight center coordinates
-                    zoom: 11,
+                    center: [50.7016, -1.2928], // Downend Rd, Newport PO30 2NU coordinates
+                    zoom: 14,
                     scrollWheelZoom: false, // Disable scroll zoom for better UX
                     zoomControl: true
                 });
@@ -696,9 +696,9 @@
                     maxZoom: 19
                 }).addTo(map);
 
-                // Add a marker for Isle of Wight with a custom popup
-                const marker = L.marker([50.693, -1.305]).addTo(map);
-                marker.bindPopup('<div style="text-align: center;"><strong style="font-size: 16px;">Isle of Wight</strong><br/><span style="color: #64748b;">Takeover 2026</span><br/><span style="color: #94a3b8; font-size: 12px;">Specific locations TBA</span></div>');
+                // Add a marker for the event location with a custom popup
+                const marker = L.marker([50.7016, -1.2928]).addTo(map);
+                marker.bindPopup('<div style="text-align: center;"><strong style="font-size: 16px;">Isle of Wight Takeover 2026</strong><br/><span style="color: #64748b;">Downend Rd, Newport</span><br/><span style="color: #94a3b8; font-size: 12px;">PO30 2NU</span></div>');
 
                 // Make map responsive - invalidate size after a short delay
                 setTimeout(() => {
